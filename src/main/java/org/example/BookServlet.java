@@ -15,13 +15,7 @@ import java.io.IOException;
 class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        BookService bookService = new BookService();
-        for (Book book : bookService.searchBook("Java")) {
-            System.out.println(book.getTitle()
-            );
-        }
-
-    resp.sendRedirect("index.jsp");
+        resp.sendRedirect("index.jsp");
 
     }
 }
@@ -29,7 +23,13 @@ class IndexServlet extends HttpServlet {
 public class BookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        System.out.println("doGet");
+        BookService bookService = new BookService();
+        for (Book book : bookService.searchBook("Java")) {
+            System.out.println("salom");
+            System.out.println("title" + book.getTitle()
+            );
+        }
     }
 
     @Override
