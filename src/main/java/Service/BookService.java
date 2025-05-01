@@ -55,6 +55,15 @@ public class BookService {
                     JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
                     imageUrl = imageLinks.optString("thumbnail", null);
                 }
+
+                Book book = Book.builder()
+                        .title(volumeInfo.optString("title", "No title"))
+                        .author(authors)
+                        .description(volumeInfo.optString("description", "No description"))
+                        .imageUrl(imageUrl)
+                        .build();
+
+                books.add(book);
                 Book.builder()
                         .title(item.getString("title"))
                         .author(item.getString("author"))
