@@ -1,6 +1,8 @@
 package org.example;
 
 
+import Model.Book;
+import Service.BookService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +15,14 @@ import java.io.IOException;
 class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        BookService bookService = new BookService();
+        for (Book book : bookService.searchBook("Java")) {
+            System.out.println(book.getTitle()
+            );
+        }
+
     resp.sendRedirect("index.jsp");
+
     }
 }
 @WebServlet("/book")

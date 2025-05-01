@@ -18,7 +18,8 @@ import java.util.List;
 
 public class BookService {
     @SneakyThrows
-    public Book searchBook(String query) {
+    public List<Book> searchBook(String query) {
+        List<Book> Books = new ArrayList<>();
         String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + query;
 
         URL url = new URL(apiUrl);
@@ -37,17 +38,18 @@ public class BookService {
             JSONObject jsonObject = new JSONObject(stringBuffer.toString());
             JSONArray items = jsonObject.getJSONArray("items");
 
-            List<Book> Books = new ArrayList<>();
+
 
             for (int i = 0; i < items.length(); i++) {
                 JSONObject item = items.getJSONObject(i);
                 JSONObject volumeInfo = item.getJSONObject("volumeInfo");
 
                 JSONArray authors = volumeInfo.optJSONArray("authors");
-                    if (authorsArray != null && authorsArray.length() > 0) {
-                    authors = authorsArray.join(", ");
-                    // Removing quotes from the joined string
-                    authors = authors.replaceAll("\"", "");
+                String author = "No Author";
+                if (authors.length() > 0 && authors != null) {
+                    author = authors.join(", ");
+                    author = author.replace("\"", "");
+
                 }
 
                 String imageUrl = null;
@@ -56,21 +58,17 @@ public class BookService {
                     imageUrl = imageLinks.optString("thumbnail", null);
                 }
 
-                Book book = Book.builder()
-                        .title(volumeInfo.optString("title", "No title"))
-                        .author(authors)
-                        .description(volumeInfo.optString("description", "No description"))
-                        .imageUrl(imageUrl)
-                        .build();
-
-                books.add(book);
-                Book.builder()
-                        .title(item.getString("title"))
-                        .author(item.getString("author"))
-                        .description(item.getString("description"))
-                        .build();
+                Books.add(
+                        Book.builder()
+                                .title(item.getString("title"))
+                                .author(author)
+                                .description(item.getString("description"))
+                                .imageUrl(imageUrl)
+                                .build()
+                );
             }
         }
+        return Books;
     }
 }
 
