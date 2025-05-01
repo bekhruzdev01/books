@@ -49,6 +49,12 @@ public class BookService {
                     // Removing quotes from the joined string
                     authors = authors.replaceAll("\"", "");
                 }
+
+                String imageUrl = null;
+                if (volumeInfo.has("imageLinks")) {
+                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                    imageUrl = imageLinks.optString("thumbnail", null);
+                }
                 Book.builder()
                         .title(item.getString("title"))
                         .author(item.getString("author"))
