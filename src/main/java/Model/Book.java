@@ -9,7 +9,7 @@ import lombok.Setter;
 @Builder
 public class Book {
     private String title;
-    private String author;
+    private String author ;
     private String description;
     private String imageUrl;
 
