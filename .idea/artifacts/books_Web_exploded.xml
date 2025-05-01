@@ -7,6 +7,15 @@
         <element id="directory" name="classes">
           <element id="module-output" name="books" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.17.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.17.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.17.0" />
+          <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.14.9" />
+          <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.42.0" />
+          <element id="library" level="project" name="Maven: org.json:json:20230227" />
+          <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.7.2" />
+        </element>
       </element>
     </root>
   </artifact>

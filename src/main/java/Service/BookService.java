@@ -1,9 +1,9 @@
 package Service;
 
 import Model.Book;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,7 +15,7 @@ import java.util.List;
 public class BookService {
     @SneakyThrows
     public List<Book> searchBook(String query) {
-        List<Book> books = new ArrayList<>();
+        List<Book> Books = new ArrayList<>();
         String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + query;
 
         URL url = new URL(apiUrl);
@@ -25,51 +25,50 @@ public class BookService {
 
         if (urlConnection.getResponseCode() == 200) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
+            StringBuffer stringBuffer = new StringBuffer();
+
+            while (reader.ready()) {
+                stringBuffer.append(reader.readLine());
             }
 
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(stringBuilder.toString());
-            JsonNode items = root.path("items");
+                JSONObject jsonObject = new JSONObject(stringBuffer.toString());
+            JSONArray items = jsonObject.getJSONArray("items");
 
-            for (JsonNode item : items) {
-                JsonNode volumeInfo = item.path("volumeInfo");
 
-                String title = volumeInfo.path("title").asText("No Title");
-                String description = volumeInfo.path("description").asText("No Description");
 
-                // Authors array to string
-                JsonNode authorsNode = volumeInfo.path("authors");
+            for (int i = 0; i < items.length(); i++) {
+                JSONObject item = items.getJSONObject(i);
+                JSONObject volumeInfo = item.getJSONObject("volumeInfo");
+
+                JSONArray authors = volumeInfo.optJSONArray("authors");
                 String author = "No Author";
-                if (authorsNode.isArray()) {
-                    List<String> authorList = new ArrayList<>();
-                    for (JsonNode a : authorsNode) {
-                        authorList.add(a.asText());
-                    }
-                    author = String.join(", ", authorList);
+                if (authors.length() > 0 && authors != null) {
+                    author = authors.join(", ");
+                    author = author.replace("\"", "");
+
                 }
 
-                // Image link
                 String imageUrl = null;
-                JsonNode imageLinks = volumeInfo.path("imageLinks");
-                if (!imageLinks.isMissingNode()) {
-                    imageUrl = imageLinks.path("thumbnail").asText(null);
+                if (volumeInfo.has("imageLinks")) {
+                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                    imageUrl = imageLinks.optString("thumbnail", null);
                 }
 
-                books.add(
+                Books.add(
                         Book.builder()
-                                .title(title)
+                                .title(item.getString("title"))
                                 .author(author)
-                                .description(description)
+                                .description(item.getString("description"))
                                 .imageUrl(imageUrl)
                                 .build()
                 );
             }
         }
-
-        return books;
+        return Books;
     }
 }
+
+
+
+
+
