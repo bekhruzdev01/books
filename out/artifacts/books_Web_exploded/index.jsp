@@ -22,23 +22,29 @@
             if (query != null){
             for (Book book : bookService.searchBook(query)) {
         %>
-        <div class="card m-3" style="width: 18rem;">
+        <div class="card m-2" style="width: 19rem; height: " >
             <img src="<%= book.getImageUrl() != null ? book.getImageUrl() : "https://via.placeholder.com/150" %>"
                  class="card-img-top img-fluid fixed-height" alt="Book image">
             <div class="card-body">
-                <div class="h-">
-                    <h5 class="card-title"><%=book.getTitle()%></h5>
+                <div class="h-60px">
+                    <h6 class="card-title truncate-1-lines"><%=book.getTitle()%></h6>
 
                 </div>
-                <p class="card-text fw-bold"><%=book.getAuthor()%></p>
-                <p class="card-text truncate-3-lines"><%= book.getDescription() %></p>
-                <a href="#" class="btn btn-outline-primary">Read more</a>
+                <div class="h-60px">
+                    <p class="card-text fw-bold"><%=book.getAuthor()%></p>
+                </div>
+                <div class="h-50">
+                    <p class="card-text truncate-3-lines"><%= book.getDescription() %></p>
+                </div>
+                <div class="h-25">
+                    <a href="#" class="btn btn-outline-primary">Read more</a>
+                </div>
             </div>
         </div>
 
         <%}
             }else {%>
-        <div class="text-center d-flex justify-content-center align-items-center m-3 text-light">
+        <div class="d-flex justify-content-center text-align-center m-3 text-light">
             No Books
         </div>
 

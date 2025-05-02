@@ -8,6 +8,13 @@
         overflow: hidden;
     }
 
+    .truncate-1-lines{
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
     .fixed-height {
         height: 250px;
     }
