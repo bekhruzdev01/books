@@ -23,13 +23,7 @@ class IndexServlet extends HttpServlet {
 public class BookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doGet");
-        BookService bookService = new BookService();
-        for (Book book : bookService.searchBook("Java")) {
-            System.out.println("salom");
-            System.out.println("title" + book.getTitle()
-            );
-        }
+        
     }
 
     @Override
