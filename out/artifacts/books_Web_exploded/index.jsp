@@ -1,11 +1,12 @@
 <%@ page import="Service.BookService" %>
 <%@ page import="Model.Book" %>
 <%@ page pageEncoding="UTF-8" %>
-<%@include file="Component/Header.jsp"%>
+<%@include file="Component/Header.jsp" %>
 
 <div class="container-fluid">
     <div>
-        <button class="btn btn-outline-light border-0" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+        <button class="btn btn-outline-light border-0" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop"
+                aria-controls="staticBackdrop">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
@@ -19,38 +20,43 @@
         <%
             BookService bookService = new BookService();
             String query = request.getParameter("searchQuery");
-            if (query != null){
-            for (Book book : bookService.searchBook(query)) {
+            if (query != null) {
+                for (Book book : bookService.searchBook(query)) {
         %>
-        <div class="card m-2" style="width: 19rem; height: " >
-            <img src="<%= book.getImageUrl() != null ? book.getImageUrl() : "https://via.placeholder.com/150" %>"
-                 class="card-img-top img-fluid fixed-height" alt="Book image">
-            <div class="card-body">
-                <div class="h-60px">
-                    <h6 class="card-title truncate-1-lines"><%=book.getTitle()%></h6>
+        <div class="card m-2" style="width: 19rem;">
+            <img src="<%=book.getImageUrl() != null ? book.getImageUrl() : "https://via.placeholder.com/150" %>"
+        class="card-img-top img-fluid fixed-height" alt="Book image">
+        <div class="card-body">
+            <div class="h-60px">
+                <h6 class="card-title truncate-1-lines"><%=book.getTitle()%>
+                </h6>
 
-                </div>
-                <div class="h-60px">
-                    <p class="card-text fw-bold"><%=book.getAuthor()%></p>
-                </div>
-                <div class="h-50">
-                    <p class="card-text truncate-3-lines"><%= book.getDescription() %></p>
-                </div>
-                <div class="h-25">
-                    <a href="#" class="btn btn-outline-primary">Read more</a>
-                </div>
+            </div>
+            <div class="h-60px">
+                <p class="card-text fw-bold"><%=book.getAuthor()%>
+                </p>
+            </div>
+            <div class="h-50">
+                <p class="card-text truncate-3-lines"><%= book.getDescription() %>
+                </p>
+            </div>
+            <div class="h-25">
+                <a href="#" class="btn btn-outline-primary">Read more</a>
             </div>
         </div>
-
-        <%}
-            }else {%>
-        <div class="d-flex justify-content-center text-align-center m-3 text-light">
-            No Books
-        </div>
-
-        <%}%>
-
     </div>
 
+    <%
+        }
+    } else {
+    %>
+    <div class="d-flex justify-content-center align-items-center w-100" style="height: 200px;">
+        <h3 class="text-light text-center">No Books</h3>
+    </div>
+
+    <%}%>
+
 </div>
-<%@ include file="Component/Footer.jsp"%>
+
+</div>
+<%@ include file="Component/Footer.jsp" %>
