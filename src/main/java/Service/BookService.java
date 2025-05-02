@@ -27,9 +27,11 @@ public class BookService {
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             StringBuffer stringBuffer = new StringBuffer();
 
-            while (reader.ready()) {
-                stringBuffer.append(reader.readLine());
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuffer.append(line);
             }
+
 
                 JSONObject jsonObject = new JSONObject(stringBuffer.toString());
             JSONArray items = jsonObject.getJSONArray("items");
@@ -42,7 +44,7 @@ public class BookService {
 
                 JSONArray authors = volumeInfo.optJSONArray("authors");
                 String author = "No Author";
-                if (authors.length() > 0 && authors != null) {
+                if (authors != null && authors.length() > 0) {
                     author = authors.join(", ");
                     author = author.replace("\"", "");
 
@@ -56,11 +58,12 @@ public class BookService {
 
                 Books.add(
                         Book.builder()
-                                .title(item.getString("title"))
+                                .title(volumeInfo.optString("title", "No Title"))
                                 .author(author)
-                                .description(item.getString("description"))
+                                .description(volumeInfo.optString("description", "No Description"))
                                 .imageUrl(imageUrl)
                                 .build()
+
                 );
             }
         }
