@@ -1,5 +1,6 @@
 package Service;
 
+import Model.Book;
 import Model.Result;
 
 import java.sql.*;
@@ -37,5 +38,17 @@ public class DbService {
         callableStatement.registerOutParameter(3, Types.BOOLEAN);
         callableStatement.execute();
         return Result.builder().message(callableStatement.getString(2)).success(callableStatement.getBoolean(3)).build();
+    }
+
+    public Result updateBook(Book book) throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call update_country(?, ?, ?, ?)}");
+        callableStatement.setInt(1, book.getId());
+        callableStatement.setString(2, book.getTitle());
+
+        callableStatement.registerOutParameter(3, Types.VARCHAR);
+        callableStatement.registerOutParameter(4, Types.BOOLEAN);
+        callableStatement.execute();
+        return Result.builder().message(callableStatement.getString(3)).build();
     }
 }
