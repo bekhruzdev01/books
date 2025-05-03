@@ -1,14 +1,15 @@
 package Service;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import Model.Result;
+
+import java.sql.*;
 
 public class DbService {
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/first-jsp";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "root123";
 
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -16,5 +17,15 @@ public class DbService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Result addBook(String name) throws SQLException {
+        Connection connection = getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call add_book(?, ?, ?)}");
+        callableStatement.setString(1, name);
+        callableStatement.registerOutParameter(2, Types.VARCHAR);
+        callableStatement.registerOutParameter(3, Types.BOOLEAN);
+        callableStatement.execute();
+        return Result.builder().message(callableStatement.getString(2)).success(callableStatement.getBoolean(3)).build();
     }
 }
