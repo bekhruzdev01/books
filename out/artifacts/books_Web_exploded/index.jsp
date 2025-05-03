@@ -41,7 +41,11 @@
                 </p>
             </div>
             <div class="h-25">
-                <a href="#" class="btn btn-outline-primary">Read more</a>
+                <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Read more</a>
+                <!-- Button trigger modal -->
+<%--                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">--%>
+<%--                    Read more--%>
+<%--                </button>--%>
             </div>
         </div>
     </div>
